@@ -29,6 +29,24 @@ services:
     volumes:
       - redis_data:/data
 
+  backend:
+    build:
+      context: .
+    image: backend
+    container_name: backend
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    environment:
+      DB__URL: "postgresql+asyncpg://postgres:postgres@db:5432/postgres"
+      DB__ECHO: 0
+      REDIS__HOST: "redis"
+      REDIS__PORT: 6379
+    ports:
+      - "8080:8080"
+
 volumes:
   postgres_data:
   redis_data:
