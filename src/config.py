@@ -37,15 +37,6 @@ class RedisConfig(BaseModel):
     db: int = 0
 
 
-class CacheNamespace(BaseModel):
-    users_list: str = "users-list"
-
-
-class CacheConfig(BaseModel):
-    prefix: str = "fastapi-cache"
-    namespace: CacheNamespace = CacheNamespace()
-
-
 class RedisNamespace(BaseModel):
     example_key: str = 'example_key'
 
@@ -81,7 +72,6 @@ class Settings(BaseSettings):
     run: RunConfig = RunConfig()
     logging: LoggingConfig = LoggingConfig()
     redis: RedisConfig = RedisConfig()
-    cache: CacheConfig = CacheConfig()
     redis_keys: RedisKeysConfig = RedisKeysConfig()
     db: DatabaseConfig
 

@@ -2,8 +2,6 @@ from contextlib import asynccontextmanager
 from typing import AsyncGenerator
 from redis.asyncio import Redis
 from fastapi import FastAPI
-from fastapi_cache import FastAPICache
-from fastapi_cache.backends.redis import RedisBackend
 from fastapi.middleware.cors import CORSMiddleware
 
 from config import settings
@@ -19,7 +17,6 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
         db=settings.redis.db,
         max_connections=settings.redis.max_connections,
     )
-    FastAPICache.init(RedisBackend(app.state.redis), prefix=settings.cache.prefix)
 
     yield
     # shutdown

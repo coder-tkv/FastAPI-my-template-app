@@ -3,23 +3,18 @@ from typing import Annotated
 from fastapi import (
     APIRouter,
     Depends,
-    BackgroundTasks,
 )
-from fastapi_cache import FastAPICache
 from sqlalchemy.ext.asyncio import AsyncSession
-from fastapi_cache.decorator import cache
 
 from config import settings
 from database.db_helper import db_helper
 from schemas.user import UserRead, UserCreate
 from crud import users as users_crud
-from utils.redis_key_builders import users_list_key_builder
 
 router = APIRouter(prefix='/users', tags=["Users"])
 
 
 @router.get("", response_model=list[UserRead])
-@cache(expire=60, key_builder=users_list_key_builder, namespace=settings.cache.namespace.users_list)
 async def get_users(
     session: Annotated[
         AsyncSession,
@@ -32,14 +27,12 @@ async def get_users(
 
 @router.post("", response_model=UserRead)
 async def create_user(
-    bg_tasks: BackgroundTasks,
     session: Annotated[
         AsyncSession,
         Depends(db_helper.get_session),
     ],
     user_create: UserCreate,
 ):
-    bg_tasks.add_task(FastAPICache.clear, namespace=settings.cache.namespace.users_list)
     user = await users_crud.create_user(
         session=session,
         user_create=user_create,

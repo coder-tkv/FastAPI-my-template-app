@@ -1,6 +1,6 @@
 # FastAPI My Template App
 
-Шаблон FastAPI-приложения с примерами работы с PostgreSQL, Redis и кэшированием.
+Шаблон FastAPI-приложения с примерами работы с PostgreSQL и Redis.
 Все примеры можно удалить и оставить только нужную часть.
 
 ## Что внутри
@@ -8,7 +8,6 @@
 - FastAPI + async SQLAlchemy + asyncpg
 - Alembic для миграций
 - Redis и примеры CRUD по ключам
-- Кэширование через fastapi-cache2
 - Docker Compose для локальной среды
 
 ## Быстрый старт (Docker)
@@ -53,7 +52,6 @@ uvicorn main:app --reload --host 0.0.0.0 --port 8000
 
 - `/users` — пример обычной работы с БД (SQLAlchemy)
 - `/redis/*` — пример работы с Redis
-- Кэширование списка пользователей через `@cache`
 
 ## Как удалить примеры
 
@@ -69,15 +67,6 @@ uvicorn main:app --reload --host 0.0.0.0 --port 8000
 - Удалить переменные `REDIS__*` из `.env` и `docker-compose.yaml`.
 - Удалить сервис `redis` из `docker-compose.yaml`.
 - Удалить зависимость `redis` из `pyproject.toml`.
-
-### Убрать только кэширование
-
-- В `src/api/users_example.py`:
-  - Удалить декоратор `@cache`.
-  - Удалить `FastAPICache.clear`.
-- В `src/create_fastapi_app.py`:
-  - Удалить `FastAPICache.init(...)`.
-- Удалить зависимость `fastapi-cache2` из `pyproject.toml`.
 
 ### Убрать пример работы с БД
 
