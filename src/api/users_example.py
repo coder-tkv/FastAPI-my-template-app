@@ -6,7 +6,6 @@ from fastapi import (
 )
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from config import settings
 from database.db_helper import db_helper
 from schemas.user import UserRead, UserCreate
 from crud import users as users_crud
